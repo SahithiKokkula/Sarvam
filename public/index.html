@@ -21,8 +21,80 @@
     .evidence-bar { display:flex; align-items:center; gap:8px; padding:8px; margin:4px 0 16px; background:#f3f8f4; border:1px solid var(--line); border-radius:12px; }.mode-label { margin-right:auto; font:10px "DM Mono"; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }.mode-button { border:0; border-radius:8px; background:transparent; color:var(--muted); padding:8px 10px; font:11px "DM Mono"; cursor:pointer; }.mode-button.active { color:var(--navy); background:#fff; box-shadow:0 2px 7px #224c3815; }
     .fingerprint { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin:8px 0 20px; }.fingerprint-segment { height:9px; border-radius:99px; background:#dce5df; }.fingerprint-labels { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; color:var(--muted); font:9px "DM Mono"; text-align:center; }.dependency { color:var(--navy); background:#e8f0f4; padding:3px 6px; border-radius:99px; font:10px "DM Mono"; }.fingerprint-copy { color:var(--muted); font-size:12px; margin:-10px 0 16px; }
     .claim { border-top:1px solid var(--line); padding:18px 0; }.claim-top { display:flex; gap:10px; align-items:start; }.dot { min-width:9px; height:9px; border-radius:50%; margin-top:7px; }.claim p { margin:0; font-size:14px; line-height:1.55; }    .claim-meta { display:flex; gap:10px; margin:10px 0 0 19px; color:var(--muted); font:11px "DM Mono"; }.reason { color:var(--muted); font-size:12px; margin:8px 0 0 19px; }        .source { display:block; color:var(--green); font-size:11px; margin:7px 0 0 19px; text-decoration:none; }.source small { display:block; color:var(--muted); margin-top:3px; line-height:1.4; }.chain { margin:14px 0 0 19px; padding:10px 0 0 13px; border-left:1px solid #c8ddd1; }.chain-row { position:relative; margin:0 0 10px; font-size:11px; color:var(--muted); }.chain-row:before { content:""; position:absolute; left:-17px; top:4px; width:7px; height:7px; border:2px solid #fff; border-radius:50%; background:#65ae8b; box-shadow:0 0 0 1px #65ae8b; }.chain-row b { display:block; color:var(--ink); font:10px "DM Mono"; text-transform:uppercase; letter-spacing:.04em; margin-bottom:2px; }.retrieval-note { padding:9px 11px; border-radius:10px; background:#f6faf7; color:var(--muted); font:10px "DM Mono"; margin:0 0 15px; }.takeaway { margin:0 0 10px; padding:12px 14px; border-radius:12px; background:#f7faf8; }.takeaway strong { display:block; font-size:13px; margin-bottom:4px; }.takeaway p { margin:0; color:var(--muted); font-size:12px; line-height:1.45; }.detail-toggle { border:0; background:transparent; color:var(--green); padding:8px 0 0 19px; cursor:pointer; font:11px "DM Mono"; }.detail-content[hidden] { display:none; }
+    .confidence { display:flex; align-items:center; gap:10px; margin:12px 0 0 22px; color:var(--muted); font:11px "DM Mono"; }.confidence-track { flex:1; height:7px; overflow:hidden; border-radius:99px; background:#edf2ee; }.confidence-fill { height:100%; border-radius:inherit; background:var(--yellow); }.confidence-value { min-width:38px; color:var(--ink); text-align:right; }.retrieval-note strong { color:var(--navy); }.retrieval-note small { display:block; margin-top:4px; color:var(--muted); font:10px/1.5 "DM Mono"; }
     .legend { margin-top:18px; display:flex; justify-content:space-between; font:11px "DM Mono"; color:var(--muted); }.legend span { margin-right:12px; }.legend i { display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px; }.footer-note { margin-top:18px; font-size:12px; color:var(--muted); line-height:1.5; }
     @media(max-width:800px){.workbench{grid-template-columns:1fr}header{padding:22px 24px}.badge{display:none}}
+    :focus-visible { outline:3px solid #9dd9bc; outline-offset:3px; }
+    body { background:linear-gradient(145deg,#f8fbf8 0%,#f2f7f3 100%); }
+    header { min-height:76px; background:rgba(255,255,255,.72); backdrop-filter:blur(12px); }
+    .brand { color:var(--navy); }
+    .mark { box-shadow:0 5px 14px #1d3c4a24; }
+    main { padding-top:72px; }
+    .hero { max-width:820px; margin-bottom:48px; }
+    .hero h1 { color:var(--navy); max-width:760px; }
+    .hero h1 em { color:var(--green); font-style:normal; }
+    .hero p { margin-top:24px; }
+    .workbench { align-items:start; gap:22px; }
+    .panel { border-radius:24px; padding:26px; box-shadow:0 20px 55px #224c3812; }
+    .panel-head { margin-bottom:20px; }
+    .panel h2 { font-size:17px; }
+    textarea { min-height:270px; padding:4px 2px; font-size:16px; }
+    textarea::placeholder { color:#9aa9a3; }
+    .toolbar { padding-top:18px; gap:11px; }
+    .select, .upload, .button { min-height:44px; }
+    .select { padding-left:14px; padding-right:34px; cursor:pointer; }
+    .button { padding:12px 20px; box-shadow:0 7px 16px #1d3c4a20; transition:transform .18s ease,box-shadow .18s ease,background .18s ease; }
+    .button:hover:not(:disabled) { background:#285366; transform:translateY(-1px); box-shadow:0 10px 20px #1d3c4a28; }
+    .upload { display:inline-flex; align-items:center; }
+    .footer-note { max-width:550px; }
+    #results { min-height:500px; }
+    .evidence-bar { margin:0 0 18px; padding:6px; gap:4px; }
+    .mode-label { padding-left:6px; }
+    .mode-button { transition:background .16s ease,color .16s ease; }
+    .mode-button:hover:not(.active) { color:var(--navy); background:#eaf2ed; }
+    .retrieval-note { border:0; margin:0 0 18px; padding:11px 13px; line-height:1.45; }
+    .fingerprint { margin:10px 0 9px; gap:7px; }
+    .fingerprint-segment { height:10px; box-shadow:inset 0 1px 1px #ffffff66; }
+    .fingerprint-labels { gap:7px; line-height:1.35; }
+    .fingerprint-copy { margin:10px 0 18px; line-height:1.45; }
+    .summary { margin:0 0 4px; gap:7px; }
+    .pill { padding:8px 10px; }
+    .claim { padding:22px 0; }
+    .claim-top { gap:12px; }
+    .claim p { font-size:15px; font-weight:600; line-height:1.5; }
+    .dot { min-width:10px; height:10px; margin-top:6px; box-shadow:0 0 0 4px #f4f8f5; }
+    .takeaway { margin:12px 0 0 22px; padding:13px 14px; border:1px solid #edf2ee; background:#fbfdfb; }
+    .takeaway strong { color:var(--ink); font-size:12px; }
+    .claim-meta { margin-left:22px; align-items:center; }
+    .reason { margin-left:22px; }
+    .detail-toggle { margin-left:22px; padding-top:12px; }
+    .chain { margin-left:22px; }
+    .source { margin-left:22px; padding:4px 0; }
+    .source:hover { text-decoration:underline; }
+    .legend { border-top:1px solid var(--line); padding-top:18px; margin-top:4px; }
+    .empty { min-height:390px; padding:30px; }
+    .empty strong { font-size:15px; }
+    @media(max-width:800px) {
+      main { padding:48px 18px 70px; }
+      .hero { margin-bottom:32px; }
+      .hero h1 { font-size:clamp(40px,13vw,62px); }
+      .hero p { font-size:16px; }
+      .panel { padding:20px; border-radius:20px; }
+      textarea { min-height:220px; }
+      #results { min-height:0; }
+      .evidence-bar { flex-wrap:wrap; }
+      .mode-label { width:100%; margin:0 0 2px; }
+      .mode-button { flex:1; }
+      .legend { gap:12px; align-items:start; }
+      .legend span { margin:0; }
+    }
+    @media(max-width:460px) {
+      header { padding:18px; }
+      .toolbar > * { width:100%; justify-content:center; }
+      .select { appearance:auto; }
+      .spinner { text-align:center; }
+      .fingerprint-labels { font-size:8px; }
+    }
   </style>
 </head>
 <body>
@@ -32,7 +104,7 @@
     <section class="workbench">
       <div class="panel">
         <div class="panel-head"><h2>What are you checking?</h2><span class="mono">01 / INPUT</span></div>
-        <textarea id="input" placeholder="Paste an article, forwarded message, or claim here…&#10;&#10;Try: भारत ने 2030 तक अपनी अर्थव्यवस्था दोगुनी करने का लक्ष्य रखा है।"></textarea>
+        <textarea id="input" aria-label="Text to check" placeholder="Paste an article, forwarded message, or claim here…&#10;&#10;Try: भारत ने 2030 तक अपनी अर्थव्यवस्था दोगुनी करने का लक्ष्य रखा है।"></textarea>
         <div class="toolbar">
           <label class="upload">＋ Upload image <input id="image" type="file" accept="image/*" hidden></label>
           <select class="select" id="language"><option>English</option><option>Hindi</option><option>Hinglish</option><option>Marathi</option><option>Tamil</option><option>Telugu</option><option>Bengali</option></select>
@@ -40,7 +112,7 @@
         </div>
         <div class="footer-note">Tip: add the original link or publication name for a sharper result. Images are OCR'd in your browser and never uploaded.</div>
       </div>
-      <div class="panel" id="results"><div class="panel-head"><h2>Trust map</h2><span class="mono">02 / EVIDENCE</span></div><div class="evidence-bar"><span class="mode-label">Evidence mode</span><button class="mode-button active" data-mode="fingerprint">Fingerprint</button><button class="mode-button" data-mode="chain">Chain</button><button class="mode-button" data-mode="language">भाषा / Language</button></div><div class="empty"><div><strong>Your map is waiting.</strong>Each sentence becomes a visible signal.</div></div></div>
+      <div class="panel" id="results" aria-live="polite"><div class="panel-head"><h2>Trust map</h2><span class="mono">02 / EVIDENCE</span></div><div class="evidence-bar"><span class="mode-label">Evidence mode</span><button class="mode-button active" data-mode="fingerprint">Fingerprint</button><button class="mode-button" data-mode="chain">Chain</button><button class="mode-button" data-mode="language">भाषा / Language</button></div><div class="empty"><div><strong>Your map is waiting.</strong>Each sentence becomes a visible signal.</div></div></div>
     </section>
   </main>
   <script>
@@ -51,10 +123,41 @@
     function evidenceBar(active="fingerprint") { const t=copy(); return `<div class="evidence-bar"><span class="mode-label">${t.mode}</span><button class="mode-button ${active==="fingerprint"?"active":""}" data-mode="fingerprint">${t.fingerprint}</button><button class="mode-button ${active==="chain"?"active":""}" data-mode="chain">${t.chain}</button><button class="mode-button ${active==="language"?"active":""}" data-mode="language">${t.language}</button></div>`; }
     results.addEventListener("click", (event) => { const button = event.target.closest(".mode-button"); if (!button) return; if (button.dataset.mode === "language") { evidenceLanguage = evidenceLanguage === "English" ? "Hindi" : "English"; render(currentClaims, currentDemo); } else { document.querySelectorAll(".mode-button").forEach((item) => item.classList.toggle("active", item === button)); document.querySelectorAll(".chain, .fingerprint-copy, .fingerprint, .fingerprint-labels").forEach((item) => item.hidden = button.dataset.mode === "fingerprint" ? item.classList.contains("chain") : item.classList.contains("fingerprint") || item.classList.contains("fingerprint-labels") || item.classList.contains("fingerprint-copy")); } });
     let currentClaims = [], currentDemo = false;
-    image.addEventListener("change", async () => { const file = image.files[0]; if (!file) return; spinner.style.display = "inline"; spinner.textContent = "READING IMAGE…"; try { const { data } = await Tesseract.recognize(file, "eng+hin"); input.value = data.text; } catch { input.placeholder = "OCR could not read this image. Paste the text instead."; } finally { spinner.style.display = "none"; } });
-    check.addEventListener("click", async () => { if (input.value.trim().length < 10) { input.focus(); return; } check.disabled = true; spinner.style.display = "inline"; results.innerHTML = '<div class="panel-head"><h2>Trust map</h2><span class="mono">02 / EVIDENCE</span></div><div class="empty"><div>Searching the web, then checking each claim…</div></div>'; try { const response = await fetch("/api/analyze", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ text:input.value, language:language.value }) }); const data = await response.json(); if (!response.ok) throw new Error(data.error); render(data.claims, data.demo, data.retrieval); } catch (error) { results.innerHTML = `<div class="empty"><div><strong>Could not analyze this yet.</strong>${error.message}</div></div>`; } finally { check.disabled = false; spinner.style.display = "none"; } });
+    function cleanOcrText(raw) {
+      const lines = String(raw || "").normalize("NFC").split(/\r?\n/).map(line => line.replace(/[|¦]/g, "I").replace(/[“”„]/g, '"').replace(/[‘’]/g, "'").replace(/\s+/g, " ").trim()).filter(Boolean);
+      const chrome = /^(live|breaking news|news|yesterday at|comments?\s*[•·*x]|shares?|and \d+ others|[©®]|[\W_]*\d{1,2}:\d{2}[\W_]*)$/i;
+      const useful = lines.filter(line => !chrome.test(line) && !/^(प्रतिक्रिया|कमेंट्स?|शेयर|लाइक)\b/i.test(line));
+      const cleaned = useful.join("\n")
+        .replace(/\b(TEN|T|I)\s+han\b/gi, "")
+        .replace(/\bPS\s+ah\b/gi, "")
+        .replace(/\bET\s+areaking\s+NEWS\b/gi, "BREAKING NEWS")
+        .replace(/\s+([।!?,:;])/g, "$1")
+        .replace(/([।!?])(?=\S)/g, "$1 ")
+        .replace(/(^|\n)\s*[=@#][^\u0900-\u097FA-Za-z0-9]{0,8}\s*/g, "$1")
+        .replace(/[^\S\n]{2,}/g, " ")
+        .split("\n")
+        .map(line => line.trim())
+        .filter(line => line.length >= 3 && !/^(?:I|l|ee|ics|PS|ah|ET)$/i.test(line))
+        .join("\n")
+        .trim();
+      return cleaned || String(raw || "").trim();
+    }
+    async function prepareOcrImage(file) {
+      const bitmap = await createImageBitmap(file);
+      const scale = Math.min(3, Math.max(1.5, 1800 / bitmap.width));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(bitmap.width * scale);
+      canvas.height = Math.round(bitmap.height * scale);
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      context.filter = "contrast(1.18) brightness(1.04)";
+      context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      bitmap.close();
+      return canvas;
+    }
+    image.addEventListener("change", async () => { const file = image.files[0]; if (!file) return; spinner.style.display = "inline"; spinner.textContent = "CLEANING IMAGE TEXT…"; try { const source = await prepareOcrImage(file); const { data } = await Tesseract.recognize(source, "eng+hin", { preserve_interword_spaces: 1 }); const local = cleanOcrText(data.text); let cleaned = local; try { const response = await fetch("/api/clean-text", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ text:local, language:language.value }) }); if (response.ok) { const filtered = await response.json(); if (typeof filtered.text === "string" && filtered.text.trim().length >= 3) cleaned = filtered.text.trim(); } } catch { /* local cleanup remains a safe fallback */ } input.value = cleaned; const hindiCharacters = (cleaned.match(/[\u0900-\u097F]/g) || []).length; const latinCharacters = (cleaned.match(/[A-Za-z]/g) || []).length; if (hindiCharacters > latinCharacters && [...language.options].some(option => option.value === "Hindi")) language.value = "Hindi"; input.focus(); } catch { input.placeholder = "OCR could not read this image. Paste the text instead."; } finally { spinner.style.display = "none"; } });
+    check.addEventListener("click", async () => { if (input.value.trim().length < 10) { input.focus(); return; } check.disabled = true; spinner.style.display = "inline"; results.innerHTML = '<div class="panel-head"><h2>Trust map</h2><span class="mono">02 / EVIDENCE</span></div><div class="empty"><div>Searching the web, then checking each claim…</div></div>'; try { const response = await fetch("/api/analyze", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ text:input.value, language:language.value }) }); const body = await response.text(); let data; try { data = JSON.parse(body); } catch { throw new Error(response.ok ? "The checker returned an invalid response. Try again." : `The checker is unavailable (${response.status}). Check the deployment logs.`); } if (!response.ok) throw new Error(data.error || "The checker could not analyze this claim."); if (!Array.isArray(data.claims)) throw new Error(data.error || "The checker returned no claims."); render(data.claims, data.demo, data.retrieval); } catch (error) { results.innerHTML = `<div class="empty"><div><strong>Could not analyze this yet.</strong>${escapeHtml(error.message)}</div></div>`; } finally { check.disabled = false; spinner.style.display = "none"; } });
     results.addEventListener("click", (event) => { const toggle = event.target.closest(".detail-toggle"); if (!toggle) return; const detail = toggle.nextElementSibling; detail.hidden = !detail.hidden; toggle.textContent = detail.hidden ? "＋ Show evidence chain" : "− Hide evidence chain"; });
-    function render(claims, demo, retrieval={}) { currentClaims=claims; currentDemo=demo; const t=copy(); const counts = claims.reduce((a,c)=>(a[c.status]++,a),{verified:0,contradicted:0,unknown:0}); const segments=claims.map(c=>`<span class="fingerprint-segment" style="background:${c.status==="verified"?"#35ad76":c.status==="contradicted"?"#e66a5c":"#e2ae3d"}"></span>`).join(""); const searchNote=`${retrieval.provider || "Web search"} · ${retrieval.claimsSearched || claims.length} claims · ${retrieval.resultsFound || 0} sources`; results.innerHTML = `<div class="panel-head"><h2>Trust map</h2><span class="mono">${demo ? "REVIEW MODE" : "LIVE CHECK"}</span></div>${evidenceBar()}<div class="retrieval-note">⌕ ${searchNote}</div><div class="fingerprint">${segments}</div><div class="fingerprint-labels"><span>${t.supported}</span><span>${t.contradicted}</span><span>${t.missing}</span><span>confidence</span></div><p class="fingerprint-copy">A quick read first. Open any claim for the full evidence trail.</p><div class="summary"><span class="pill verified">${counts.verified} ${t.supported}</span><span class="pill contradicted">${counts.contradicted} ${t.contradicted}</span><span class="pill unknown">${counts.unknown} ${t.missing}</span></div>${claims.map(c=>{ const sourceCount=(c.sources||[]).length; const verdict=c.status==="verified"?"Supported by retrieved evidence":c.status==="contradicted"?"Conflicts with retrieved evidence":"Needs more evidence"; return `<article class="claim"><div class="claim-top"><span class="dot ${c.status}" style="background:${c.status==="verified"?"#35ad76":c.status==="contradicted"?"#e66a5c":"#e2ae3d"}"></span><p>${escapeHtml(c.claim)}</p></div><div class="takeaway"><strong>${verdict} · ${c.confidence}% confidence</strong><p>${escapeHtml(c.reason || "No short explanation was returned.")}</p></div><div class="claim-meta"><span>${sourceCount} source${sourceCount===1?"":"s"}</span>${(c.dependsOn||[]).length ? `<span class="dependency">↳ ${t.dependent}: ${c.dependsOn.join(", ")}</span>` : ""}</div><button class="detail-toggle">＋ Show evidence chain</button><div class="detail-content" hidden><div class="chain">${(c.evidenceChain||[]).map(row=>`<div class="chain-row"><b>${escapeHtml(row.step)}</b>${escapeHtml(row.detail)}</div>`).join("")}</div>${(c.sources||[]).map(s=>`<a class="source" href="${s.url}" target="_blank" rel="noreferrer">↗ ${escapeHtml(s.title || s.source || "Source")}<small>${escapeHtml(s.snippet || "")}</small></a>`).join("")}</div></article>`; }).join("")}<div class="legend"><span><i style="background:#35ad76"></i>${t.supported}</span><span><i style="background:#e2ae3d"></i>${t.missing}</span><span><i style="background:#e66a5c"></i>${t.contradicted}</span></div>`; }
+    function render(claims, demo, retrieval={}) { currentClaims=claims; currentDemo=demo; const t=copy(); const counts = claims.reduce((a,c)=>(a[c.status]++,a),{verified:0,contradicted:0,unknown:0}); const segments=claims.map(c=>`<span class="fingerprint-segment" style="background:${c.status==="verified"?"#35ad76":c.status==="contradicted"?"#e66a5c":"#e2ae3d"}"></span>`).join(""); const providers=(retrieval.providersUsed||[]).join(" + ") || retrieval.provider || "Web search"; const searchNote=`${providers} · ${retrieval.claimsSearched || claims.length} claims · ${retrieval.resultsFound || 0} sources`; const retrievalDetail=`${retrieval.pagesFetched || 0} pages scraped · ${retrieval.domainsFound || 0} independent domains${(retrieval.errors||[]).length ? ` · ${retrieval.errors.length} provider issue(s)` : ""}`; results.innerHTML = `<div class="panel-head"><h2>Trust map</h2><span class="mono">${demo ? "REVIEW MODE" : "LIVE CHECK"}</span></div>${evidenceBar()}<div class="retrieval-note">⌕ <strong>${escapeHtml(searchNote)}</strong><small>${escapeHtml(retrievalDetail)}</small></div><div class="fingerprint">${segments}</div><div class="fingerprint-labels"><span>${t.supported}</span><span>${t.contradicted}</span><span>${t.missing}</span><span>confidence</span></div><p class="fingerprint-copy">Evidence found is not automatically proof. Confidence measures how strongly the retrieved sources support this exact claim.</p><div class="summary"><span class="pill verified">${counts.verified} ${t.supported}</span><span class="pill contradicted">${counts.contradicted} ${t.contradicted}</span><span class="pill unknown">${counts.unknown} ${t.missing}</span></div>${claims.map(c=>{ const sourceCount=(c.sources||[]).length; const confidence=Math.max(0,Math.min(100,Number(c.confidence)||0)); const verdict=c.status==="verified"?"Supported by retrieved evidence":c.status==="contradicted"?"Conflicts with retrieved evidence":sourceCount?"Evidence found, but not enough to verify":"No sufficient evidence found"; return `<article class="claim"><div class="claim-top"><span class="dot ${c.status}" style="background:${c.status==="verified"?"#35ad76":c.status==="contradicted"?"#e66a5c":"#e2ae3d"}"></span><p>${escapeHtml(c.claim)}</p></div><div class="takeaway"><strong>${verdict}</strong><p>${escapeHtml(c.reason || "No short explanation was returned.")}</p></div><div class="confidence" aria-label="${confidence}% confidence"><span>confidence</span><span class="confidence-track"><span class="confidence-fill" style="width:${confidence}%"></span></span><span class="confidence-value">${confidence}%</span></div><div class="claim-meta"><span>${sourceCount} source${sourceCount===1?"":"s"}</span>${(c.sources||[]).length ? `<span>${new Set(c.sources.map(s=>s.domain || s.source)).size} domain${new Set(c.sources.map(s=>s.domain || s.source)).size===1?"":"s"}</span>` : ""}${(c.dependsOn||[]).length ? `<span class="dependency">↳ ${t.dependent}: ${c.dependsOn.join(", ")}</span>` : ""}</div><button class="detail-toggle">＋ Show evidence chain</button><div class="detail-content" hidden><div class="chain">${(c.evidenceChain||[]).map(row=>`<div class="chain-row"><b>${escapeHtml(row.step)}</b>${escapeHtml(row.detail)}</div>`).join("")}</div>${(c.sources||[]).map(s=>`<a class="source" href="${s.url}" target="_blank" rel="noreferrer">↗ ${escapeHtml(s.title || s.source || "Source")} <small>${escapeHtml(s.domain || s.source || "")}${s.fetched ? " · page scraped" : " · search snippet only"}${s.snippet ? ` · ${escapeHtml(s.snippet)}` : ""}</small></a>`).join("")}</div></article>`; }).join("")}<div class="legend"><span><i style="background:#35ad76"></i>${t.supported}</span><span><i style="background:#e2ae3d"></i>${t.missing}</span><span><i style="background:#e66a5c"></i>${t.contradicted}</span></div>`; }
     function escapeHtml(value) { return String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])); }
   </script>
 </body>
