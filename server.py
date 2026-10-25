@@ -46,6 +46,7 @@ class Source(BaseModel):
     domain: str = ""
     fetched: bool = False
     evidenceScore: int = Field(default=0, ge=0, le=100)
+    publisher: str = ""
 
 
 class Claim(BaseModel):
@@ -147,6 +148,8 @@ async def search_web(query: str) -> list[dict]:
             "url": item.get("link", ""),
             "snippet": BeautifulSoup(item.get("summary", ""), "html.parser").get_text(" ", strip=True),
             "source": "Google News",
+            "publisher": item.get("source", {}).get("title", "") if isinstance(item.get("source"), dict) else "",
+            "domain": urlparse(item.get("source", {}).get("href", "")).netloc.lower().removeprefix("www.") if isinstance(item.get("source"), dict) else "",
         } for item in feedparser.parse(response.text).entries[:8] if item.get("link", "").startswith("http")]
 
     async def duckduckgo(client):
@@ -190,7 +193,7 @@ async def search_web(query: str) -> list[dict]:
             url = result["url"].split("#", 1)[0].rstrip("/")
             if url and url not in unique:
                 result["url"] = url
-                result["domain"] = urlparse(url).netloc.lower().removeprefix("www.")
+                result["domain"] = result.get("domain") or result.get("publisher") or urlparse(url).netloc.lower().removeprefix("www.")
                 unique[url] = result
 
         async def enrich(result):
@@ -199,7 +202,7 @@ async def search_web(query: str) -> list[dict]:
                 if page.is_success and "text/html" in page.headers.get("content-type", ""):
                     soup = BeautifulSoup(page.text, "html.parser")
                     canonical = soup.select_one("link[rel='canonical']")
-                    if canonical and canonical.get("href", "").startswith("http"):
+                    if canonical and canonical.get("href", "").startswith("http") and "news.google.com" not in canonical["href"]:
                         result["url"] = canonical["href"].split("#", 1)[0].rstrip("/")
                         result["domain"] = urlparse(result["url"]).netloc.lower().removeprefix("www.")
                     meta_description = soup.select_one("meta[property='og:description'], meta[name='description']")
@@ -216,6 +219,7 @@ async def search_web(query: str) -> list[dict]:
             except (httpx.HTTPError, UnicodeError):
                 pass
             result.setdefault("fetched", False)
+            result.setdefault("domain", result.get("publisher") or urlparse(result["url"]).netloc.lower().removeprefix("www."))
             result.setdefault("evidenceScore", min(45, 15 + len(result.get("snippet", "")) // 12))
             return result
 
@@ -237,6 +241,19 @@ def retrieval_summary(evidence: list[dict], errors: list[str]) -> dict:
         "domainsFound": len(domains),
         "errors": errors,
     }
+
+
+def relevant_source_count(claim: str, sources: list[Source]) -> tuple[int, int]:
+    stop_words = {"the", "is", "in", "on", "at", "of", "and", "a", "an", "to", "from", "was", "were"}
+    tokens = {token.lower() for token in re.findall(r"[A-Za-z0-9\u0900-\u097F]{3,}", claim) if token.lower() not in stop_words}
+    matches = 0
+    domains = set()
+    for source in sources:
+        text = f"{source.title} {source.snippet}".lower()
+        if sum(1 for token in tokens if token in text) >= max(2, min(4, len(tokens) // 2)):
+            matches += 1
+            domains.add(source.domain or source.publisher or source.source)
+    return matches, len(domains)
 
 
 def fallback_claims(claims: list[str], evidence: list[dict]) -> list[dict]:
@@ -312,10 +329,20 @@ Retrieved evidence: {json.dumps(evidence, ensure_ascii=False)}"""
             allowed = {result["url"] for result in retrieved_sources}
             attached_sources = [source for source in claim.sources if source.url in allowed]
             retrieved_by_url = {source["url"]: source for source in retrieved_sources}
-            claim.sources = [
-                Source.model_validate({**retrieved_by_url[source.url], **source.model_dump()})
-                for source in attached_sources
-            ] or [Source.model_validate(source) for source in retrieved_sources[:3]]
+            claim.sources = []
+            for source in attached_sources:
+                merged = dict(retrieved_by_url[source.url])
+                if source.title and source.title != "Untitled":
+                    merged["title"] = source.title
+                if source.snippet:
+                    merged["snippet"] = source.snippet
+                if source.source and source.source != "Web":
+                    merged["source"] = source.source
+                claim.sources.append(Source.model_validate(merged))
+            claim.sources = claim.sources or [Source.model_validate(source) for source in retrieved_sources[:5]]
+            for source in claim.sources:
+                if not source.domain:
+                    source.domain = source.publisher or urlparse(source.url).netloc.lower().removeprefix("www.")
             claim.status = claim.status if claim.status in {"verified", "contradicted", "unknown"} else "unknown"
             claim.dependsOn = [item for item in claim.dependsOn if item != claim.id]
             if not claim.sources:
@@ -323,8 +350,14 @@ Retrieved evidence: {json.dumps(evidence, ensure_ascii=False)}"""
                 claim.confidence = min(claim.confidence, 35)
                 claim.reason = "No retrieved source was attached to this claim, so it remains unknown."
             elif claim.status == "unknown":
-                claim.confidence = min(claim.confidence, 60)
-                claim.reason = f"Evidence was retrieved from {len({source.domain for source in claim.sources})} domain(s), but it did not establish the claim strongly enough for a supported verdict. {claim.reason}".strip()
+                matching_sources, matching_domains = relevant_source_count(claim.claim, claim.sources)
+                if matching_sources >= 2 and matching_domains >= 2:
+                    claim.status = "verified"
+                    claim.confidence = max(75, min(90, claim.confidence))
+                    claim.reason = f"Supported by {matching_sources} relevant sources across {matching_domains} independent publishers."
+                else:
+                    claim.confidence = min(claim.confidence, 60)
+                    claim.reason = f"Evidence was retrieved from {len({source.domain for source in claim.sources})} domain(s), but it did not establish the claim strongly enough for a supported verdict. {claim.reason}".strip()
             parsed_claim = claim.model_dump()
             pages_fetched = sum(1 for source in claim.sources if source.fetched)
             parsed_claim["evidenceChain"] = [
