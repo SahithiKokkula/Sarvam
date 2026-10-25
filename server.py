@@ -22,7 +22,9 @@ from sarvamai import SarvamAI
 load_dotenv()
 ROOT = Path(__file__).parent
 app = FastAPI(title="ProofPatch")
-app.mount("/static", StaticFiles(directory=ROOT / "public"), name="static")
+PUBLIC_DIR = ROOT / "public"
+if PUBLIC_DIR.is_dir():
+    app.mount("/static", StaticFiles(directory=PUBLIC_DIR), name="static")
 
 
 class AnalyzeRequest(BaseModel):
@@ -341,4 +343,7 @@ Retrieved evidence: {json.dumps(evidence, ensure_ascii=False)}"""
 
 @app.get("/{path:path}")
 async def frontend(path: str):
-    return FileResponse(ROOT / "public" / "index.html")
+    index = PUBLIC_DIR / "index.html"
+    if not index.is_file():
+        return {"error": "Frontend is served separately in this deployment."}
+    return FileResponse(index)
