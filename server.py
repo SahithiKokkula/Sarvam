@@ -171,7 +171,11 @@ Retrieved evidence: {json.dumps(evidence, ensure_ascii=False)}"""
             retrieved_sources = evidence[evidence_index]["results"] if evidence else []
             allowed = {result["url"] for result in retrieved_sources}
             attached_sources = [source for source in claim.sources if source.url in allowed]
-            claim.sources = attached_sources or [Source.model_validate(source) for source in retrieved_sources[:3]]
+            retrieved_by_url = {source["url"]: source for source in retrieved_sources}
+            claim.sources = [
+                Source.model_validate({**retrieved_by_url[source.url], **source.model_dump()})
+                for source in attached_sources
+            ] or [Source.model_validate(source) for source in retrieved_sources[:3]]
             claim.status = claim.status if claim.status in {"verified", "contradicted", "unknown"} else "unknown"
             claim.dependsOn = [item for item in claim.dependsOn if item != claim.id]
             if not claim.sources:
